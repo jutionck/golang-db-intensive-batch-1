@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/golang-db-intensive/model"
+	"github.com/golang-db-intensive/utils"
 )
 
 type CustomerRepository interface {
@@ -19,7 +20,7 @@ type customerRepository struct {
 }
 
 func (c *customerRepository) Insert(customer *model.Customer) error {
-	_, err := c.db.Exec("insert into customer(name,address,job) values ($1,$2,$3)", customer.Name, customer.Address, customer.Job)
+	_, err := c.db.Exec(utils.INSERT_CUSTOMER, customer.Name, customer.Address, customer.Job)
 	if err != nil {
 		return err
 	}
@@ -28,7 +29,7 @@ func (c *customerRepository) Insert(customer *model.Customer) error {
 }
 
 func (c *customerRepository) Update(customer *model.Customer) error {
-	_, err := c.db.Exec("update customer set name=$1, address=$2, job=$3 where id=$4", customer.Name, customer.Address, customer.Job, customer.Id)
+	_, err := c.db.Exec(utils.UPDATE_CUSTOMER, customer.Name, customer.Address, customer.Job, customer.Id)
 	if err != nil {
 		return err
 	}
@@ -36,7 +37,7 @@ func (c *customerRepository) Update(customer *model.Customer) error {
 	return nil
 }
 func (c *customerRepository) Delete(id int) error {
-	_, err := c.db.Exec("delete from customer where id=$1", id)
+	_, err := c.db.Exec(utils.DELETE_CUSTOMER, id)
 	if err != nil {
 		return err
 	}
@@ -47,7 +48,7 @@ func (c *customerRepository) GetAll(page int, totalRows int) ([]model.Customer, 
 	// pagination
 	limit := totalRows
 	offset := limit * (page - 1)
-	rows, err := c.db.Query("select id,name,address,job from customer limit $1 offset $2", limit, offset)
+	rows, err := c.db.Query(utils.SELECT_CUSTOMER_LIST, limit, offset)
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +72,7 @@ func (c *customerRepository) GetById(id int) (model.Customer, error) {
 	// 	return model.Customer{}, err
 	// }
 
-	err := c.db.QueryRow("select id,name,address,job from customer where id=$1", id).Scan(&customer.Id, &customer.Name, &customer.Address, &customer.Job)
+	err := c.db.QueryRow(utils.SELECT_CUSTOMER_ID, id).Scan(&customer.Id, &customer.Name, &customer.Address, &customer.Job)
 	if err != nil {
 		return model.Customer{}, err
 	}
