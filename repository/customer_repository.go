@@ -10,7 +10,7 @@ type CustomerRepository interface {
 	Insert(customer *model.Customer) error
 	Update(customer *model.Customer) error
 	Delete(id int) error
-	GetAll() ([]model.Customer, error)
+	GetAll(page int, totalRows int) ([]model.Customer, error)
 	GetById(id int) (model.Customer, error)
 }
 
@@ -43,8 +43,11 @@ func (c *customerRepository) Delete(id int) error {
 
 	return nil
 }
-func (c *customerRepository) GetAll() ([]model.Customer, error) {
-	rows, err := c.db.Query("select id,name,address,job from customer")
+func (c *customerRepository) GetAll(page int, totalRows int) ([]model.Customer, error) {
+	// pagination
+	limit := totalRows
+	offset := limit * (page - 1)
+	rows, err := c.db.Query("select id,name,address,job from customer limit $1 offset $2", limit, offset)
 	if err != nil {
 		return nil, err
 	}
