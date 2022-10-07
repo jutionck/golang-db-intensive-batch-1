@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/golang-db-intensive/config"
-	"github.com/golang-db-intensive/model"
 	"github.com/golang-db-intensive/repository"
 	"github.com/golang-db-intensive/usecase"
 )
@@ -16,15 +15,15 @@ func Run() {
 	cstUseCase := usecase.NewCustomerUseCase(cstRepo)
 
 	// Select
-	// page := 1
-	// totalRows := 5
-	// customers, err := cstUseCase.GetAll(page, totalRows)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// for _, customer := range customers {
-	// 	fmt.Println(customer)
-	// }
+	page := 1
+	totalRows := 5
+	customers, err := cstUseCase.GetAll(page, totalRows)
+	if err != nil {
+		fmt.Println(err)
+	}
+	for _, customer := range customers {
+		fmt.Println(customer)
+	}
 
 	// select id,name,address,job from customer where id = 2
 	// customer, err := cstRepo.GetById(1)
@@ -51,9 +50,9 @@ func Run() {
 	// addCustomer08 := model.Customer{Name: "Anisa Rahma", Address: "Lampung", Job: "Accountan"}
 	// cstRepo.Insert(&addCustomer08)
 
-	addCustomer09 := model.Customer{Name: "Edo", Address: "Lampung", Job: "Accountan"}
-	err := cstUseCase.Insert(&addCustomer09)
-	fmt.Println(err)
+	// addCustomer09 := model.Customer{Name: "Edo", Address: "Lampung", Job: "Accountan"}
+	// err := cstUseCase.Insert(&addCustomer09)
+	// fmt.Println(err)
 
 	// Update
 	// updateCustomer01 := model.Customer{Id: 3, Name: "Jution Candra", Address: "Jakarta", Job: "Programmer"}
