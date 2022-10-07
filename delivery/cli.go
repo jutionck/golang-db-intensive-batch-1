@@ -15,15 +15,15 @@ func Run() {
 	cstUseCase := usecase.NewCustomerUseCase(cstRepo)
 
 	// Select
-	page := 1
-	totalRows := 5
-	customers, err := cstUseCase.GetAll(page, totalRows)
-	if err != nil {
-		fmt.Println(err)
-	}
-	for _, customer := range customers {
-		fmt.Println(customer)
-	}
+	// page := 1
+	// totalRows := 5
+	// customers, err := cstUseCase.FindAllCustomer(page, totalRows)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// for _, customer := range customers {
+	// 	fmt.Println(customer)
+	// }
 
 	// select id,name,address,job from customer where id = 2
 	// customer, err := cstRepo.GetById(1)
@@ -42,4 +42,13 @@ func Run() {
 
 	// Delete
 	// cstRepo.Delete(2)
+
+	// Find customer by name
+	customers, err := cstUseCase.FindCustomerByName("b")
+	if err != nil {
+		fmt.Println(err)
+	}
+	for _, customer := range customers {
+		fmt.Println(customer)
+	}
 }

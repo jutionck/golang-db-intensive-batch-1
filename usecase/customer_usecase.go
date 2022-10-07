@@ -8,35 +8,41 @@ import (
 )
 
 type CustomerUseCase interface {
-	Insert(customer *model.Customer) error
-	Update(customer *model.Customer) error
-	Delete(id int) error
-	GetAll(page int, totalRows int) ([]model.Customer, error)
-	GetById(id int) (model.Customer, error)
+	RegisterNewCustomer(customer *model.Customer) error
+	UpdateCustomer(customer *model.Customer) error
+	DeleteCustomer(id int) error
+	FindAllCustomer(page int, totalRows int) ([]model.Customer, error)
+	FindCustomerById(id int) (model.Customer, error)
+	FindCustomerByName(name string) ([]model.Customer, error)
 }
 
 type customerUseCase struct {
 	customerRepository repository.CustomerRepository
 }
 
-func (c *customerUseCase) Insert(customer *model.Customer) error {
+func (c *customerUseCase) RegisterNewCustomer(customer *model.Customer) error {
 	if customer.Name == "" {
 		return errors.New("Customer name can't be empty")
 	}
 	return c.customerRepository.Insert(customer)
 }
 
-func (c *customerUseCase) Update(customer *model.Customer) error {
+func (c *customerUseCase) UpdateCustomer(customer *model.Customer) error {
 	return c.customerRepository.Update(customer)
 }
-func (c *customerUseCase) Delete(id int) error {
+func (c *customerUseCase) DeleteCustomer(id int) error {
 	return c.customerRepository.Delete(id)
 }
-func (c *customerUseCase) GetAll(page int, totalRows int) ([]model.Customer, error) {
+
+func (c *customerUseCase) FindAllCustomer(page int, totalRows int) ([]model.Customer, error) {
 	return c.customerRepository.GetAll(page, totalRows)
 }
 
-func (c *customerUseCase) GetById(id int) (model.Customer, error) {
+func (c *customerUseCase) FindCustomerByName(name string) ([]model.Customer, error) {
+	return c.customerRepository.GetByName(name)
+}
+
+func (c *customerUseCase) FindCustomerById(id int) (model.Customer, error) {
 	return c.customerRepository.GetById(id)
 }
 

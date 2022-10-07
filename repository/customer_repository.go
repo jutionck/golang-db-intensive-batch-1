@@ -12,6 +12,7 @@ type CustomerRepository interface {
 	Delete(id int) error
 	GetAll(page int, totalRows int) ([]model.Customer, error)
 	GetById(id int) (model.Customer, error)
+	GetByName(name string) ([]model.Customer, error)
 }
 
 type customerRepository struct {
@@ -43,6 +44,16 @@ func (c *customerRepository) Delete(id int) error {
 
 	return nil
 }
+
+func (c *customerRepository) GetByName(name string) ([]model.Customer, error) {
+	var customers []model.Customer
+	err := c.db.Select(&customers, utils.SELECT_CUSTOMER_NAME, "%"+name+"%")
+	if err != nil {
+		return nil, err
+	}
+	return customers, nil
+}
+
 func (c *customerRepository) GetAll(page int, totalRows int) ([]model.Customer, error) {
 	// pagination
 	limit := totalRows

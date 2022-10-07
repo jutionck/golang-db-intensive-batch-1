@@ -7,4 +7,5 @@ const (
 	DELETE_CUSTOMER      = `delete from customer where id=$1`
 	SELECT_CUSTOMER_LIST = `select id,name,address,job from customer limit $1 offset $2`
 	SELECT_CUSTOMER_ID   = `select id,name,address,job from customer where id=$1`
+	SELECT_CUSTOMER_NAME = `select id,name,address,job from customer where name ilike $1`
 )
