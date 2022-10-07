@@ -33,26 +33,8 @@ func Run() {
 	// fmt.Println(customer)
 
 	// Insert
-	// addCustomer01 := model.Customer{Name: "Eggy Fachrurrozi", Address: "Bandung", Job: "Backend"}
+	// addCustomer01 := model.Customer{Name: "Stevano", Address: "Medan", Job: "Trainer"}
 	// cstRepo.Insert(&addCustomer01)
-	// addCustomer02 := model.Customer{Name: "Ahmad Hilmy Muflih", Address: "Sutabaya", Job: "Backend"}
-	// cstRepo.Insert(&addCustomer02)
-	// addCustomer03 := model.Customer{Name: "Muhammad Kevin", Address: "Jakarta", Job: "Android Developer"}
-	// cstRepo.Insert(&addCustomer03)
-	// addCustomer04 := model.Customer{Name: "Teguh Pambudi", Address: "Cianjur", Job: "Programmer"}
-	// cstRepo.Insert(&addCustomer04)
-	// addCustomer05 := model.Customer{Name: "Theofilus Handoyo", Address: "Malang", Job: "Programmer"}
-	// cstRepo.Insert(&addCustomer05)
-	// addCustomer06 := model.Customer{Name: "Yafi Abyan", Address: "Jakarta", Job: "Programmer"}
-	// cstRepo.Insert(&addCustomer06)
-	// addCustomer07 := model.Customer{Name: "Suci Mulan", Address: "Bandung", Job: "Secretary"}
-	// cstRepo.Insert(&addCustomer07)
-	// addCustomer08 := model.Customer{Name: "Anisa Rahma", Address: "Lampung", Job: "Accountan"}
-	// cstRepo.Insert(&addCustomer08)
-
-	// addCustomer09 := model.Customer{Name: "Edo", Address: "Lampung", Job: "Accountan"}
-	// err := cstUseCase.Insert(&addCustomer09)
-	// fmt.Println(err)
 
 	// Update
 	// updateCustomer01 := model.Customer{Id: 3, Name: "Jution Candra", Address: "Jakarta", Job: "Programmer"}

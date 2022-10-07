@@ -1,10 +1,9 @@
 package repository
 
 import (
-	"database/sql"
-
 	"github.com/golang-db-intensive/model"
 	"github.com/golang-db-intensive/utils"
+	"github.com/jmoiron/sqlx"
 )
 
 type CustomerRepository interface {
@@ -16,11 +15,11 @@ type CustomerRepository interface {
 }
 
 type customerRepository struct {
-	db *sql.DB
+	db *sqlx.DB
 }
 
 func (c *customerRepository) Insert(customer *model.Customer) error {
-	_, err := c.db.Exec(utils.INSERT_CUSTOMER, customer.Name, customer.Address, customer.Job)
+	_, err := c.db.NamedExec(utils.INSERT_CUSTOMER, customer)
 	if err != nil {
 		return err
 	}
@@ -29,7 +28,7 @@ func (c *customerRepository) Insert(customer *model.Customer) error {
 }
 
 func (c *customerRepository) Update(customer *model.Customer) error {
-	_, err := c.db.Exec(utils.UPDATE_CUSTOMER, customer.Name, customer.Address, customer.Job, customer.Id)
+	_, err := c.db.NamedExec(utils.UPDATE_CUSTOMER, customer)
 	if err != nil {
 		return err
 	}
@@ -48,38 +47,24 @@ func (c *customerRepository) GetAll(page int, totalRows int) ([]model.Customer, 
 	// pagination
 	limit := totalRows
 	offset := limit * (page - 1)
-	rows, err := c.db.Query(utils.SELECT_CUSTOMER_LIST, limit, offset)
+	var customers []model.Customer
+	err := c.db.Select(&customers, utils.SELECT_CUSTOMER_LIST, limit, offset)
 	if err != nil {
 		return nil, err
-	}
-
-	var customers []model.Customer
-	for rows.Next() {
-		var customer model.Customer
-		err := rows.Scan(&customer.Id, &customer.Name, &customer.Address, &customer.Job)
-		if err != nil {
-			return nil, err
-		}
-		customers = append(customers, customer)
 	}
 	return customers, nil
 }
 
 func (c *customerRepository) GetById(id int) (model.Customer, error) {
 	var customer model.Customer
-
-	// if err := c.db.QueryRow("select id,name,address,job from customer where id=$1", id).Scan(&customer.Id, &customer.Name, &customer.Address, &customer.Job); err != nil {
-	// 	return model.Customer{}, err
-	// }
-
-	err := c.db.QueryRow(utils.SELECT_CUSTOMER_ID, id).Scan(&customer.Id, &customer.Name, &customer.Address, &customer.Job)
+	err := c.db.Get(&customer, utils.SELECT_CUSTOMER_ID, id)
 	if err != nil {
 		return model.Customer{}, err
 	}
 	return customer, nil
 }
 
-func NewCustomerRepository(db *sql.DB) CustomerRepository {
+func NewCustomerRepository(db *sqlx.DB) CustomerRepository {
 	cstRepo := new(customerRepository)
 	cstRepo.db = db
 	return cstRepo

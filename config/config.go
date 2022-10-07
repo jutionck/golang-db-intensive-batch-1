@@ -1,15 +1,15 @@
 package config
 
 import (
-	"database/sql"
 	"fmt"
 	"os"
 
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
 
 type Config struct {
-	Db *sql.DB
+	Db *sqlx.DB
 }
 
 func (c *Config) initDb() {
@@ -21,14 +21,14 @@ func (c *Config) initDb() {
 	dbDriver := os.Getenv("DB_DRIVER")
 
 	dsn := fmt.Sprintf("%s://%s:%s@%s:%s/%s?sslmode=disable", dbDriver, dbUser, dbPassword, dbHost, dbPort, dbName)
-	db, err := sql.Open(dbDriver, dsn)
+	db, err := sqlx.Open(dbDriver, dsn)
 	if err != nil {
 		panic(err)
 	}
 	c.Db = db
 }
 
-func (c *Config) DbConn() *sql.DB {
+func (c *Config) DbConn() *sqlx.DB {
 	return c.Db
 }
 
