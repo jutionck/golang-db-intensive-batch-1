@@ -1,8 +1,10 @@
 package model
 
+import "database/sql"
+
 type Customer struct {
 	Id      int
 	Name    string
-	Address string
+	Address sql.NullString
 	Job     string
 }

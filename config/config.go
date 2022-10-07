@@ -21,7 +21,7 @@ func (c *Config) initDb() {
 	dbDriver := os.Getenv("DB_DRIVER")
 
 	dsn := fmt.Sprintf("%s://%s:%s@%s:%s/%s?sslmode=disable", dbDriver, dbUser, dbPassword, dbHost, dbPort, dbName)
-	db, err := sqlx.Open(dbDriver, dsn)
+	db, err := sqlx.Connect(dbDriver, dsn)
 	if err != nil {
 		panic(err)
 	}
